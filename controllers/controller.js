@@ -1,6 +1,13 @@
 const {User, Motorcycle, Appointment, Service} = require('../models/index');
 
 class Controller {
+    static async showLandingPage(req, res) {
+        try {
+            
+        } catch (error) {
+
+        }
+    }
     static getRegisterForm(req, res) {
         try{
             // res.send('registerForm')
