@@ -1,24 +1,22 @@
 const { User, Motorcycle, Appointment, Service } = require('../models/index');
 const bcrypt = require('bcryptjs');
+const formatRupiah = require('../helpers/formatRupiah.js');
+const { where } = require('sequelize');
 
 
 class Controller {
 
     static async showLandingPage(req, res) {
         try {
-
-            res.send('ini landing page')
-
-
+            const serviceList = await Service.findAll()
+            console.log(serviceList)
+            res.render('index.ejs', { serviceList, formatRupiah })
 
         } catch (error) {
             res.send(error)
             console.log(error)
         }
     }
-
-
-
 
     static async getRegisterForm(req, res) {
         try {
@@ -71,7 +69,9 @@ class Controller {
             if (user) {
                 const isValidPassword = bcrypt.compareSync(password, user.password)
                 if (isValidPassword) {
-                    return res.send('SUKSES MASUK')
+                    //case berhasil
+                    req.session.userId = user.id //set session di controller login
+                    return res.redirect('/')
                 } else {
                     const error = `invalid username/password`
                     return res.redirect(`/login?error=${error}`)
@@ -86,9 +86,14 @@ class Controller {
             res.send(error)
         }
     }
+
     static async getAppointments(req, res) {
         try {
-            
+            const appointmentList = await Appointment.findAll({
+                where: {
+                    
+                }
+            })
         } catch (error) {
             res.send(error)
             console.log(error)
@@ -104,10 +109,10 @@ class Controller {
     }
     static async postAddAppointments(req, res) {
         try {
-            const  {id} = req.params
-            const {brand, type, year, licensePlate, UserID, serviceName, description, price} =req.body
-            await Motorcycle.create({brand, type, year, licensePlate, UserID: id})
-            await Service.create({serviceName, description, price})
+            const { id } = req.params
+            const { brand, type, year, licensePlate, UserID, serviceName, description, price } = req.body
+            await Motorcycle.create({ brand, type, year, licensePlate, UserID: id })
+            await Service.create({ serviceName, description, price })
 
             res.redirect('/appointments')
         } catch (error) {
@@ -118,7 +123,7 @@ class Controller {
     static async getAppointmentsEdit(req, res) {
         try {
             const { id } = req.params
-            const {brand, type, year, licensePlate, UserID, serviceName, description, price} =req.body
+            const { brand, type, year, licensePlate, UserID, serviceName, description, price } = req.body
 
         } catch (error) {
             res.send(error)
@@ -127,7 +132,7 @@ class Controller {
     }
     static async postAppointmentsEdit(req, res) {
         try {
-            
+
         } catch (error) {
             res.send(error)
             console.log(error)
@@ -135,7 +140,7 @@ class Controller {
     }
     static async deleteAppointments(req, res) {
         try {
-            
+
         } catch (error) {
             res.send(error)
             console.log(error)
@@ -143,7 +148,7 @@ class Controller {
     }
     static async getResultAppointments(req, res) {
         try {
-            
+
         } catch (error) {
             res.send(error)
             console.log(error)

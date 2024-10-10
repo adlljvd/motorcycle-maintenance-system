@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeFLex Garage</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Import Poppins Font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-4">
+                    <!-- Logo -->
+                    <div>
+                        <a href="/" class="flex items-center py-5 px-2 text-gray-700 hover:text-indigo-600">
+                            <img class="h-8 w-8 mr-2" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Logo">
+                            <span class="font-bold text-lg">DeFLex Garage</span>
+                        </a>
+                    </div>
+
+                    <!-- Primary Nav Links -->
+                    <div class="hidden md:flex items-center space-x-1">
+                        <a href="/" class="py-5 px-3 text-gray-700 hover:text-indigo-600">Services</a>
+                        <a href="/appointment" class="py-5 px-3 text-gray-700 hover:text-indigo-600">Appointments</a>
+                        <a href="/about" class="py-5 px-3 text-gray-700 hover:text-indigo-600">About Us</a>
+                    </div>
+                </div>
+
+                <!-- Secondary Nav Links -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="/profile" class="py-5 px-3 text-gray-700 hover:text-indigo-600">Profile</a>
+                    <a href="/login" class="py-2 px-4 bg-indigo-600 text-white rounded hover:bg-indigo-700">Logout</a>
+                </div>
+
+                
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu hidden md:hidden">
+            <a href="/services" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">Services</a>
+            <a href="/appointment" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">Appointments</a>
+            <a href="/about" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">About Us</a>
+            <a href="/profile" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">Profile</a>
+            <a href="/login" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Tailwind JS for mobile menu toggle -->
+    <script>
+        const btn = document.querySelector('button.mobile-menu-button');
+        const menu = document.querySelector('.mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+    </script>
+
+</body>
+
+</html>

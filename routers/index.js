@@ -1,30 +1,34 @@
 const express = require('express');
-const router = express.Router()
+const router = express.Router();
 const Controller = require('../controllers/controller');
 
+// Public routes
+router.get('/register', Controller.getRegisterForm);
+router.post('/register', Controller.postRegisterForm);
+router.get('/login', Controller.getLoginForm);
+router.post('/login', Controller.postLoginForm);
+router.get('/', Controller.showLandingPage); // Home page that shows available services
 
-router.get('/', Controller.showLandingPage) // show all our services
-router.get('/register', Controller.getRegisterForm) // ini user ketika click navbar appointment
-router.post('/register', Controller.postRegisterForm)
-router.get('/login', Controller.getLoginForm)
-router.post('/login', Controller.postLoginForm)
+// Authentication middleware
+router.use((req, res, next) => {
+    if (!req.session.userId) {
+        const error = 'Please login first!';
+        return res.redirect(`/login?error=${error}`);
+    }
+    next();
+});
 
-router.use(function(req,res,next){
-    console.log('Time: ', Date.now())
-    next()
-})
+// Private routes for authenticated users
+router.get('/motorcycle/add', Controller.getAddMotorcycle);
+router.post('/motorcycle/add', Controller.postAddMotorcycle);
 
-router.get('/appointments', Controller.getAppointments) //appointments list
-router.get('/appointments/:id/add', Controller.getAddAppointments) // page form untuk user isi data diri dan motor
-router.post('/appointments/:id/add', Controller.postAddAppointments)
-router.get('/appointments/:id/edit', Controller.getAppointmentsEdit) // form untuk mengedit sesuai id yang di click
-router.post('/appointments/:id/edit', Controller.postAppointmentsEdit) 
-router.get('/appointments/:id/delete', Controller.deleteAppointments) // delete/cancel id yang di inginkan oleh customer
-router.get('/appointments/:id/result', Controller.getResultAppointments) // menampilkan hasil appointment id customer
+// Appointments-related routes
+router.get('/appointments', Controller.getAppointments); // View all appointments
+router.get('/appointments/add', Controller.getAddAppointment); // Form to create a new appointment
+router.post('/appointments/add', Controller.postAddAppointment); // Post request to add a new appointment
+router.get('/appointments/:id/edit', Controller.getEditAppointment); // Edit an appointment by id
+router.post('/appointments/:id/edit', Controller.postEditAppointment); // Post request to update appointment
+router.get('/appointments/:id/delete', Controller.deleteAppointment); // Delete/cancel an appointment
+router.get('/appointments/:id/result', Controller.getAppointmentResult); // View the result of an appointment
 
-
-
-
-
-
-module.exports = router
+module.exports = router;
