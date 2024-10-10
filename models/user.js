@@ -24,5 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
+  User.beforeCreate(function(instance, option){
+    instance.password = ''
+  })
   return User;
+
 };
