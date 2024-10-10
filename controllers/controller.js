@@ -6,19 +6,14 @@ class Controller {
 
     static async showLandingPage(req, res) {
         try {
-
-            res.send('ini landing page')
-
-
-
+            // const home = .findAll()
+            // console.log(home)
+            res.render('index')
         } catch (error) {
             res.send(error)
             console.log(error)
         }
     }
-
-
-
 
     static async getRegisterForm(req, res) {
         try {
@@ -71,7 +66,7 @@ class Controller {
             if (user) {
                 const isValidPassword = bcrypt.compareSync(password, user.password)
                 if (isValidPassword) {
-                    return res.send('SUKSES MASUK')
+                    return res.redirect('/')
                 } else {
                     const error = `invalid username/password`
                     return res.redirect(`/login?error=${error}`)
