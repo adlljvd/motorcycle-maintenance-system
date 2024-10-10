@@ -1,21 +1,21 @@
 [
     {
       "id": 1,
-      "name": "John Doe",
-      "email": "johndoe@gmail.com",
+      "name": "Adella Java",
+      "email": "adlljvd@gmail.com",
       "password": "password123",
       "phone": "0812-3456-7890",
       "address": "Jl. Sudirman No. 123, Jakarta",
-      "role": "customer"
+      "role": "admin"
     },
     {
       "id": 2,
-      "name": "Jane Smith",
-      "email": "janesmith@gmail.com",
+      "name": "Jono Wahyu",
+      "email": "jonowahyu@gmail.com",
       "password": "password123",
       "phone": "0813-9876-5432",
       "address": "Jl. Gajah Mada No. 456, Surabaya",
-      "role": "inspector"
+      "role": "customer"
     },
     {
       "id": 3,
@@ -33,7 +33,7 @@
       "password": "sitiPassword456",
       "phone": "0821-5678-1234",
       "address": "Jl. Malioboro No. 101, Yogyakarta",
-      "role": "inspector"
+      "role": "customer"
     },
     {
       "id": 5,

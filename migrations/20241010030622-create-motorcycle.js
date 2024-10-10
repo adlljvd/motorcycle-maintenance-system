@@ -21,10 +21,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      imageURL: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
       licensePlate: {
         allowNull: false,
         type: Sequelize.STRING

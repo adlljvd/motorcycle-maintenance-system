@@ -5,7 +5,7 @@
       "type": "MT-07",
       "year": 2020,
       "licensePlate": "B 1234 XYZ",
-      "userId": 1
+      "UserId": 1
     },
     {
       "id": 2,
@@ -13,7 +13,7 @@
       "type": "CB500X",
       "year": 2019,
       "licensePlate": "D 5678 ABC",
-      "userId": 2
+      "UserId": 2
     },
     {
       "id": 3,
@@ -21,7 +21,7 @@
       "type": "GSX-R150",
       "year": 2021,
       "licensePlate": "B 9876 DEF",
-      "userId": 3
+      "UserId": 3
     },
     {
       "id": 4,
@@ -29,7 +29,7 @@
       "type": "Ninja 250",
       "year": 2018,
       "licensePlate": "L 3456 GHI",
-      "userId": 4
+      "UserId": 4
     },
     {
       "id": 5,
@@ -37,7 +37,7 @@
       "type": "Primavera",
       "year": 2022,
       "licensePlate": "F 6543 JKL",
-      "userId": 5
+      "UserId": 5
     },
     {
       "id": 6,
@@ -45,7 +45,7 @@
       "type": "Scrambler",
       "year": 2020,
       "licensePlate": "B 3456 MNO",
-      "userId": 6
+      "UserId": 6
     }
   ]
 
