@@ -137,16 +137,18 @@ class Controller {
             const userId = req.session.userId;
     
             const appointments = await Appointment.findAll({
-                where: { MotorcycleId: userId },  
-                include: [Motorcycle, Service]
+                attributes: ['id', 'appointmentDate', 'MotorcycleId', 'status', 'ServiceId', 'totalPrice'],
+                include: [Motorcycle, Service],
+                where: { MotorcycleId: userId } 
             });
-    
+            
             const motorcycle = await Motorcycle.findOne({
                 where: { UserId: userId }
             });
     
             const services = await Service.findAll();
             
+            // res.send(appointments)
     
             res.render('appointments', {
                 appointments,
@@ -267,8 +269,6 @@ class Controller {
         }
     }
     
-    
-    
     static async deleteAppointment(req, res) {
         try {
             const { id } = req.params;
@@ -295,6 +295,18 @@ class Controller {
             console.log(error)
         }
     }
+
+    
+    static logout(req, res) {
+        req.session.destroy((err) => {
+            if (err) {
+                return res.send('Error logging out');
+            }
+            res.redirect('/login'); // Redirect to the login page after logout
+        });
+    }
+
+    
 }
 
 module.exports = Controller

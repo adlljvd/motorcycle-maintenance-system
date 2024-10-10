@@ -121,6 +121,7 @@
             </thead>
             <tbody>
                 <% appointments.forEach(el => { %>
+                    <%= el.id %> ID EL
                     <%= el.ServiceId %>
                     <%= el.appointmentDate %> app date
                     <%= el.Service.serviceName %> service name
@@ -134,8 +135,8 @@
                         </td>
                         <td class="py-3 px-4"><%= formatRupiah(el.totalPrice) %></td>
                         <td class="py-3 px-4 flex space-x-2">
-                            <a href="/appointments/<%= el.ServiceId %>/edit" class="action-link edit">Edit</a>
-                            <a href="/appointments/<%= el.ServiceId %>/delete" class="action-link delete">Delete</a>
+                            <a href="/appointments/<%= el.id %>/edit" class="action-link edit">Edit</a>
+                            <a href="/appointments/<%= el.id %>/delete" class="action-link delete">Delete</a>
                         </td>
                     </tr>
                 <% }) %>

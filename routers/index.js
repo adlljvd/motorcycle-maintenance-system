@@ -8,6 +8,8 @@ router.post('/register', Controller.postRegisterForm);
 router.get('/login', Controller.getLoginForm);
 router.post('/login', Controller.postLoginForm);
 router.get('/', Controller.showLandingPage); // Home page that shows available services
+router.get('/logout', Controller.logout);
+
 
 // Authentication middleware
 router.use((req, res, next) => {
