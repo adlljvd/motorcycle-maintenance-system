@@ -9,6 +9,15 @@ router.post('/register', Controller.postRegisterForm)
 router.get('/login', Controller.getLoginForm)
 router.post('/login', Controller.postLoginForm)
 
+router.get('/appointments', Controller.getAppointments) //appointments list
+router.get('/appointments/:id/add', Controller.getAddAppointments) // page form untuk user isi data diri dan motor
+router.post('/appointments/:id/add', Controller.postAddAppointments)
+router.get('/appointments/:id/edit', Controller.getAppointmentsEdit) // form untuk mengedit sesuai id yang di click
+router.post('/appointments/:id/edit', Controller.postAppointmentsEdit) 
+router.get('/appointments/:id/delete', Controller.deleteAppointments) // delete/cancel id yang di inginkan oleh customer
+router.get('/appointments/:id/result', Controller.getResultAppointments) // menampilkan hasil appointment id customer
+
+
 
 // router.get('/appointments', Controller.getAppointments) //appointments list
 // router.get('/appointments/add', Controller.getAddAppointments) // page form untuk user isi data diri dan motor
