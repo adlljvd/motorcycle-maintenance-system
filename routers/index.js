@@ -9,6 +9,10 @@ router.post('/register', Controller.postRegisterForm)
 router.get('/login', Controller.getLoginForm)
 router.post('/login', Controller.postLoginForm)
 
+router.use(function(req,res,next){
+    console.log('Time: ', Date.now())
+    next()
+})
 
 // router.get('/appointments', Controller.getAppointments) //appointments list
 // router.get('/appointments/add', Controller.getAddAppointments) // page form untuk user isi data diri dan motor
