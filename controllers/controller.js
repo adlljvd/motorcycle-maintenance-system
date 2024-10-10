@@ -385,40 +385,40 @@ class Controller {
         }
     }
 
-    static async filterAppointmentsByStatus(req, res) {
-        try {
-            const { status } = req.query;
+    // static async filterAppointmentsByStatus(req, res) {
+    //     try {
+    //         const { status } = req.query;
 
-            // Create filter condition based on status, use Sequelize Op method
-            let whereCondition = {};
-            if (status && status !== 'All') {
-                whereCondition = {
-                    status: {
-                        [Op.eq]: status // Use Sequelize Op.eq for exact match
-                    }
-                };
-            }
+    //         // Create filter condition based on status, use Sequelize Op method
+    //         let whereCondition = {};
+    //         if (status && status !== 'All') {
+    //             whereCondition = {
+    //                 status: {
+    //                     [Op.eq]: status // Use Sequelize Op.eq for exact match
+    //                 }
+    //             };
+    //         }
 
-            // Fetch appointments based on the filter condition
-            const appointments = await Appointment.findAll({
-                where: whereCondition,
-                include: [
-                    {
-                        model: Motorcycle,
-                        include: [User]
-                    },
-                    {
-                        model: Service
-                    }
-                ]
-            });
+    //         // Fetch appointments based on the filter condition
+    //         const appointments = await Appointment.findAll({
+    //             where: whereCondition,
+    //             include: [
+    //                 {
+    //                     model: Motorcycle,
+    //                     include: [User]
+    //                 },
+    //                 {
+    //                     model: Service
+    //                 }
+    //             ]
+    //         });
 
-            // Pass filtered data and the current status to the view
-            res.render('admin-edit-status.ejs', { appointments, status });
-        } catch (error) {
-            res.status(500).send(error.message);
-        }
-    }
+    //         // Pass filtered data and the current status to the view
+    //         res.render('admin-edit-status.ejs', { appointments, status });
+    //     } catch (error) {
+    //         res.status(500).send(error.message);
+    //     }
+    // }
     
 }
 
