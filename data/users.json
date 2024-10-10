@@ -1,0 +1,57 @@
+[
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "johndoe@gmail.com",
+      "password": "password123",
+      "phone": "0812-3456-7890",
+      "address": "Jl. Sudirman No. 123, Jakarta",
+      "role": "customer"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "janesmith@gmail.com",
+      "password": "password123",
+      "phone": "0813-9876-5432",
+      "address": "Jl. Gajah Mada No. 456, Surabaya",
+      "role": "inspector"
+    },
+    {
+      "id": 3,
+      "name": "Ahmad Budi",
+      "email": "ahmadbudi@gmail.com",
+      "password": "budiPassword123",
+      "phone": "0812-8765-4321",
+      "address": "Jl. Diponegoro No. 789, Bandung",
+      "role": "customer"
+    },
+    {
+      "id": 4,
+      "name": "Siti Nurhaliza",
+      "email": "sitinurhaliza@gmail.com",
+      "password": "sitiPassword456",
+      "phone": "0821-5678-1234",
+      "address": "Jl. Malioboro No. 101, Yogyakarta",
+      "role": "inspector"
+    },
+    {
+      "id": 5,
+      "name": "Rizky Andika",
+      "email": "rizkyandika@gmail.com",
+      "password": "rizkyPassword789",
+      "phone": "0831-1234-5678",
+      "address": "Jl. Ahmad Yani No. 202, Medan",
+      "role": "customer"
+    },
+    {
+      "id": 6,
+      "name": "Putri Ayu",
+      "email": "putriayu@gmail.com",
+      "password": "putriPassword321",
+      "phone": "0842-9876-1234",
+      "address": "Jl. Pahlawan No. 303, Denpasar",
+      "role": "admin"
+    }
+  ]
+

@@ -1,0 +1,51 @@
+[
+    {
+      "id": 1,
+      "brand": "Yamaha",
+      "type": "MT-07",
+      "year": 2020,
+      "licensePlate": "B 1234 XYZ",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "brand": "Honda",
+      "type": "CB500X",
+      "year": 2019,
+      "licensePlate": "D 5678 ABC",
+      "userId": 2
+    },
+    {
+      "id": 3,
+      "brand": "Suzuki",
+      "type": "GSX-R150",
+      "year": 2021,
+      "licensePlate": "B 9876 DEF",
+      "userId": 3
+    },
+    {
+      "id": 4,
+      "brand": "Kawasaki",
+      "type": "Ninja 250",
+      "year": 2018,
+      "licensePlate": "L 3456 GHI",
+      "userId": 4
+    },
+    {
+      "id": 5,
+      "brand": "Vespa",
+      "type": "Primavera",
+      "year": 2022,
+      "licensePlate": "F 6543 JKL",
+      "userId": 5
+    },
+    {
+      "id": 6,
+      "brand": "Ducati",
+      "type": "Scrambler",
+      "year": 2020,
+      "licensePlate": "B 3456 MNO",
+      "userId": 6
+    }
+  ]
+

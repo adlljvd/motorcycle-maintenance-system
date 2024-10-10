@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1,
+      "userId": 2,
+      "license": "LIC12345",
+      "rating": 4.8,
+      "specialization": "Engine Repair"
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "license": "LIC67890",
+      "rating": 4.6,
+      "specialization": "Brake Repair"
+    },
+    {
+      "id": 3,
+      "userId": 4,
+      "license": "LIC54321",
+      "rating": 4.9,
+      "specialization": "Electrical Systems"
+    },
+    {
+      "id": 4,
+      "userId": 5,
+      "license": "LIC98765",
+      "rating": 4.7,
+      "specialization": "Suspension Repair"
+    },
+    {
+      "id": 5,
+      "userId": 6,
+      "license": "LIC11223",
+      "rating": 4.5,
+      "specialization": "Transmission Repair"
+    }
+  ]
+
