@@ -1,62 +1,79 @@
-const {User, Motorcycle, Appointment, Service} = require('../models/index');
+const { User, Motorcycle, Appointment, Service } = require('../models/index');
+const bcrypt = require('bcryptjs');
+
 
 class Controller {
 
     static async showLandingPage(req, res) {
         try {
-            
+
         } catch (error) {
 
         }
     }
-    static getRegisterForm(req, res) {
 
     static async getRegisterForm(req, res) {
-
-        try{
+        try {
             // res.send('registerForm')
             res.render('register-form.ejs')
-        }catch(error){
+        } catch (error) {
             console.log(error)
             res.send(error)
         }
     }
 
     static async postRegisterForm(req, res) {
-        try{
-            const {name, email, password, phone, address } = req.body
+        try {
+            const { name, email, password, phone, address } = req.body
             await User.create({
-                name, 
-                email, 
-                password, 
-                phone, 
+                name,
+                email,
+                password,
+                phone,
                 address,
-                role: 'customer' 
+                role: 'customer'
             })
 
             res.redirect('/login')
-        }catch(error){
+        } catch (error) {
             console.log(error)
             res.send(error)
         }
     }
 
     static async getLoginForm(req, res) {
-        try{
-            res.render('login-form.ejs')
-        }catch(error){
+        try {
+            const { error } = req.query
+            res.render('login-form.ejs', { error })
+        } catch (error) {
             console.log(error)
             res.send(error)
         }
     }
 
     static async postLoginForm(req, res) {
-        try{
-            const {username, password, role } = req.body
-            await User.create({username, password, role })
+        try {
+            const { email, password } = req.body
+            const user = await User.findOne({
+                where: {
+                    email
+                }
+            })
 
-            res.redirect('/login')
-        }catch(error){
+            if (user) {
+                const isValidPassword = bcrypt.compareSync(password, user.password)
+                if (isValidPassword) {
+                    return res.send('SUKSES MASUK')
+                } else {
+                    const error = `invalid username/password`
+                    return res.redirect(`/login?error=${error}`)
+                }
+            } else {
+                const error = `invalid username/password`
+                return res.redirect(`/login?error=${error}`)
+            }
+
+        } catch (error) {
             console.log(error)
             res.send(error)
         }
