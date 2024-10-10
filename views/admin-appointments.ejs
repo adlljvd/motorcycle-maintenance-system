@@ -1,0 +1,26 @@
+<table class="min-w-full bg-white shadow-md rounded-lg">
+    <thead>
+        <tr class="bg-gray-200">
+            <th class="py-3 px-6 text-left font-semibold">Appointment Date</th>
+            <th class="py-3 px-6 text-left font-semibold">Service Name</th>
+            <th class="py-3 px-6 text-left font-semibold">Status</th>
+            <th class="py-3 px-6 text-left font-semibold">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% appointments.forEach(el => { %>
+            <tr class="border-t">
+                <td class="py-3 px-6"><%= el.appointmentDate %></td>
+                <td class="py-3 px-6"><%= el.Service.serviceName %></td>
+                <td class="py-3 px-6">
+                    <span class="status-badge <%= el.status === 'Completed' ? 'status-completed' : (el.status === 'Scheduled' ? 'status-scheduled' : 'status-canceled') %>">
+                        <%= el.status %>
+                    </span>
+                </td>
+                <td class="py-3 px-6">
+                    <!-- Actions for edit or delete -->
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>

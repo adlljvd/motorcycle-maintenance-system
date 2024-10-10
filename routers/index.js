@@ -20,6 +20,28 @@ router.use((req, res, next) => {
     next();
 });
 
+// router.use('/admin', (req, res, next) => {
+//     if (req.session.user.role !== 'admin') {
+//         const error = 'You do not have access!';
+//         return res.redirect('/login?error=' + error);
+//     }
+//     next();
+// });
+
+router.get('/admin/customers', Controller.showCustomerDetails)
+router.get('/admin/appointments/:id/status', Controller.getEditStatusById)
+router.post('/admin/appointments/:id/status', Controller.postEditStatusById);
+router.get('/admin/appointments/filter', Controller.filterAppointmentsByStatus);
+
+
+// router.use((req, res, next) => {
+//     if (req.session.userId && req.session.role !== 'customer') {
+//         const error = 'You are an admin, can`t access to customer features!';
+//         return res.redirect(`/login?error=${error}`);
+//     }
+//     next();
+// });
+
 // Private routes for authenticated users
 router.get('/motorcycle', Controller.getMotorcycle);
 router.get('/motorcycle/add', Controller.getAddMotorcycle);
@@ -33,6 +55,9 @@ router.get('/appointments/:id/edit', Controller.getEditAppointment);
 router.post('/appointments/:id/edit', Controller.postEditAppointment); // Post request to update appointment
 router.get('/appointments/:id/delete', Controller.deleteAppointment); // Delete/cancel an appointment
 router.get('/appointments/:id/result', Controller.getAppointmentResult); // View the result of an appointment
+
+
+
 
 module.exports = router;
 

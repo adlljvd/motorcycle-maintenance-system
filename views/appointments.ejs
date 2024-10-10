@@ -70,7 +70,7 @@
         }
     </style>
 </head>
-
+<%- include('./partials/navbar.ejs') %>
 <body class="bg-gray-100">
     <div class="container mx-auto py-8">
         <h1 class="text-2xl font-semibold text-center mb-6">Your Appointments</h1>
@@ -121,10 +121,6 @@
             </thead>
             <tbody>
                 <% appointments.forEach(el => { %>
-                    <%= el.id %> ID EL
-                    <%= el.ServiceId %>
-                    <%= el.appointmentDate %> app date
-                    <%= el.Service.serviceName %> service name
                     <tr class="border-t">
                         <td class="py-3 px-4"><%= el.formatDate %></td>
                         <td class="py-3 px-4"><%= el.Service.serviceName %></td>

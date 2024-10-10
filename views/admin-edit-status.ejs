@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Appointment Status</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Import Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Styles for status labels */
+        .status-badge {
+            display: inline-block;
+            padding: 0.25em 0.5em;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid;
+        }
+
+        /* Transparent and colored backgrounds for each status */
+        .status-scheduled {
+            background-color: rgba(34, 197, 94, 0.1); /* Greenish */
+            color: #22c55e;
+            border-color: #22c55e;
+        }
+
+        .status-completed {
+            background-color: rgba(79, 70, 229, 0.1); /* Blueish */
+            color: #4f46e5;
+            border-color: #4f46e5;
+        }
+
+        .status-canceled {
+            background-color: rgba(239, 68, 68, 0.1); /* Reddish */
+            color: #ef4444;
+            border-color: #ef4444;
+        }
+
+        /* Dropdown and button styling */
+        select {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            transition: border-color 0.2s ease;
+        }
+
+        select:hover {
+            border-color: #007BFF;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #4a90e2;
+            color: white;
+            border-radius: 0.375rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #357ABD;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="container mx-auto py-8">
+        <h1 class="text-2xl font-bold text-center mb-6">Customer: <%= customer.name %></h1>
+
+        <div>
+            <a href="/admin/appointments/filter"><button>All</button></a>
+            <a href="/admin/appointments/filter?status=Scheduled"><button>Scheduled</button></a>
+            <a href="/admin/appointments/filter?status=Completed"><button>Completed</button></a>
+            <a href="/admin/appointments/filter?status=Canceled"><button>Canceled</button></a>
+        </div>
+
+        <!-- Appointments Table -->
+        <table class="min-w-full bg-white shadow-md rounded-lg">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="py-3 px-6 text-left font-semibold">Appointment Date</th>
+                    <th class="py-3 px-6 text-left font-semibold">Service Name</th>
+                    <th class="py-3 px-6 text-left font-semibold">Status</th>
+                    <th class="py-3 px-6 text-left font-semibold">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% appointments.forEach(el => { %>
+                    <tr class="border-t">
+                        <td class="py-3 px-6"><%= el.formatDate %></td>
+                        <td class="py-3 px-6"><%= el.Service.serviceName %></td>
+                        <td class="py-3 px-6">
+                            <span class="status-badge <%= el.status === 'Completed' ? 'status-completed' : (el.status === 'Scheduled' ? 'status-scheduled' : 'status-canceled') %>">
+                                <%= el.status %>
+                            </span>
+                        </td>
+                        <td class="py-3 px-6">
+                            <form action="/admin/appointments/<%= el.ServiceId %>/status" method="POST">
+                                <select name="status" class="border rounded-lg px-2 py-1">
+                                    <option value="Scheduled" <%= el.status === 'Scheduled' ? 'selected' : '' %>>Scheduled</option>
+                                    <option value="Completed" <%= el.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+                                    <option value="Canceled" <%= el.status === 'Canceled' ? 'selected' : '' %>>Canceled</option>
+                                </select>
+                                <button type="submit" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

@@ -1,8 +1,7 @@
 const { User, Motorcycle, Appointment, Service } = require('../models/index');
 const bcrypt = require('bcryptjs');
 const formatRupiah = require('../helpers/formatRupiah.js');
-
-
+const { Op } = require('sequelize');
 
 class Controller {
 
@@ -71,11 +70,17 @@ class Controller {
             if (user) {
                 const isValidPassword = bcrypt.compareSync(password, user.password)
                 if (isValidPassword) {
-
                     //case berhasil
                     req.session.userId = user.id //set session di controller login
+                    req.session.role = user.role //set session di controller login
 
-                    return res.redirect('/')
+                    if(req.session.role === 'customer'){
+                        return res.redirect('/appointments')
+                    }
+                    if(req.session.role === 'admin'){
+                        return res.redirect('/admin/customers')
+                    }
+
                 } else {
                     const error = `invalid username/password`
                     return res.redirect(`/login?error=${error}`)
@@ -306,6 +311,114 @@ class Controller {
         });
     }
 
+    //ADMIN 
+
+    static async showCustomerDetails(req, res) {
+        try {
+            const customers = await User.findAll({
+                where:{
+                    role:'customer'
+                },
+                include:[Motorcycle]
+            });
+
+            const motorcycles = await Motorcycle.findAll({
+                include:[Appointment, Service]
+            })
+
+            res.render('admin-customer-details.ejs', { customers, motorcycles });
+            // res.send(customers)
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
+
+    static async getEditStatusById(req, res) {
+        try {
+            const { id } = req.params;
+        
+
+            // Retrieve the customer by their appointment or motorcycle (depending on your system)
+            const customer = await User.findOne({
+                include: {
+                    model: Motorcycle,
+                    where: { id }
+                }
+            });
+    
+            // Retrieve all the appointments related to the customer's motorcycle
+            const appointments = await Appointment.findAll({
+                where: { MotorcycleId: id },
+                include: [Service]
+            });
+    
+            if (!customer) {
+                return res.status(404).send('Customer not found');
+            }
+    
+            res.render('admin-edit-status.ejs', { appointments, customer });
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
+    
+
+    static async postEditStatusById(req, res) {
+        try {
+            const { id } = req.params;  // Get appointment id from route parameter
+            const { status } = req.body;  // Get the new status from the request body
+
+            // Find the appointment by id
+            const appointment = await Appointment.findOne({ where: { id } });
+
+            if (!appointment) {
+                return res.status(404).send('Appointment not found.');
+            }
+
+            // Update the status
+            appointment.status = status;
+            await appointment.save();  // Save the updated status
+
+            res.redirect(`/admin/appointments/${id}/status`);  // Redirect back to the customer details page
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
+
+    static async filterAppointmentsByStatus(req, res) {
+        try {
+            const { status } = req.query;
+
+            // Create filter condition based on status, use Sequelize Op method
+            let whereCondition = {};
+            if (status && status !== 'All') {
+                whereCondition = {
+                    status: {
+                        [Op.eq]: status // Use Sequelize Op.eq for exact match
+                    }
+                };
+            }
+
+            // Fetch appointments based on the filter condition
+            const appointments = await Appointment.findAll({
+                where: whereCondition,
+                include: [
+                    {
+                        model: Motorcycle,
+                        include: [User]
+                    },
+                    {
+                        model: Service
+                    }
+                ]
+            });
+
+            // Pass filtered data and the current status to the view
+            res.render('admin-edit-status.ejs', { appointments, status });
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
     
 }
 
