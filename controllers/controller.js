@@ -8,9 +8,11 @@ class Controller {
 
     static async showLandingPage(req, res) {
         try {
+
             const serviceList = await Service.findAll()
             console.log(serviceList)
             res.render('index.ejs', { serviceList, formatRupiah })
+            
 
         } catch (error) {
             res.send(error)
@@ -69,8 +71,10 @@ class Controller {
             if (user) {
                 const isValidPassword = bcrypt.compareSync(password, user.password)
                 if (isValidPassword) {
+
                     //case berhasil
                     req.session.userId = user.id //set session di controller login
+
                     return res.redirect('/')
                 } else {
                     const error = `invalid username/password`
