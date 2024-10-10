@@ -1,0 +1,44 @@
+[
+    {
+      "id": 1,
+      "amount": 50,
+      "status": "Completed",
+      "paymentDate": "2024-10-01T11:00:00Z",
+      "appointmentId": 1
+    },
+    {
+      "id": 2,
+      "amount": 100,
+      "status": "Pending",
+      "paymentDate": "2024-10-02T15:00:00Z",
+      "appointmentId": 2
+    },
+    {
+      "id": 3,
+      "amount": 80,
+      "status": "Completed",
+      "paymentDate": "2024-10-03T16:30:00Z",
+      "appointmentId": 3
+    },
+    {
+      "id": 4,
+      "amount": 60,
+      "status": "Pending",
+      "paymentDate": "2024-10-04T10:00:00Z",
+      "appointmentId": 4
+    },
+    {
+      "id": 5,
+      "amount": 120,
+      "status": "Completed",
+      "paymentDate": "2024-10-05T18:00:00Z",
+      "appointmentId": 5
+    },
+    {
+      "id": 6,
+      "amount": 90,
+      "status": "Pending",
+      "paymentDate": "2024-10-06T09:45:00Z",
+      "appointmentId": 6
+    }
+  ]

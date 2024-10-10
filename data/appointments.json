@@ -1,0 +1,45 @@
+[
+    {
+      "id": 1,
+      "appointmentDate": "2024-10-01T10:00:00Z",
+      "userId": 1,
+      "inspectorId": 1,
+      "motorcycleId": 1
+    },
+    {
+      "id": 2,
+      "appointmentDate": "2024-10-02T14:00:00Z",
+      "userId": 2,
+      "inspectorId": 1,
+      "motorcycleId": 2
+    },
+    {
+      "id": 3,
+      "appointmentDate": "2024-10-03T09:00:00Z",
+      "userId": 3,
+      "inspectorId": 2,
+      "motorcycleId": 3
+    },
+    {
+      "id": 4,
+      "appointmentDate": "2024-10-04T13:30:00Z",
+      "userId": 4,
+      "inspectorId": 2,
+      "motorcycleId": 4
+    },
+    {
+      "id": 5,
+      "appointmentDate": "2024-10-05T11:00:00Z",
+      "userId": 5,
+      "inspectorId": 3,
+      "motorcycleId": 5
+    },
+    {
+      "id": 6,
+      "appointmentDate": "2024-10-06T15:00:00Z",
+      "userId": 6,
+      "inspectorId": 3,
+      "motorcycleId": 6
+    }
+  ]
+
