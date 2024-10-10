@@ -136,31 +136,31 @@ class Controller {
         try {
             const userId = req.session.userId;
     
-            // Fetch user's motorcycle
-            const motorcycle = await Motorcycle.findOne({ where: { UserId: userId } });
-    
-            // Fetch all appointments for the user's motorcycle
             const appointments = await Appointment.findAll({
-                where: { MotorcycleId: motorcycle ? motorcycle.id : null },
-                include: [Service]
+                where: { MotorcycleId: userId },  
+                include: [Motorcycle, Service]
             });
     
-            // Fetch all services for displaying in the form
-            const services = await Service.findAll();
+            const motorcycle = await Motorcycle.findOne({
+                where: { UserId: userId }
+            });
     
-            // Pass the necessary data to the view
+            const services = await Service.findAll();
+            
+    
             res.render('appointments', {
                 appointments,
                 motorcycle,
                 services,
                 hasMotorcycle: !!motorcycle,
-                formatRupiah  // Boolean check for motorcycle existence
+                formatRupiah
             });
         } catch (error) {
-            console.log(error);
             res.send(error);
+            console.log(error);
         }
     }
+    
     
     static async getAddAppointment(req, res) {
         try {
@@ -246,23 +246,28 @@ class Controller {
     static async postEditAppointment(req, res) {
         try {
             const { id } = req.params;
-            const { appointmentDate, serviceId, status } = req.body;
+            const { appointmentDate, serviceId, status, totalPrice } = req.body;
     
-            // Update the appointment with the new data
-            await Appointment.update({
-                appointmentDate,
-                ServiceId: serviceId,
-                status
-            }, {
-                where: { id }
-            });
+            // Update the appointment in the database
+            await Appointment.update(
+                {
+                    appointmentDate,
+                    ServiceId: serviceId,
+                    status,
+                    totalPrice
+                },
+                { where: { id } }
+            );
     
+            // Redirect back to the appointments page after successful update
             res.redirect('/appointments');
         } catch (error) {
             res.send(error);
             console.log(error);
         }
     }
+    
+    
     
     static async deleteAppointment(req, res) {
         try {

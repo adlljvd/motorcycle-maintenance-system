@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       Appointment.belongsTo(models.Service, { foreignKey: 'ServiceId' });
 
     }
+
+    get formatDate(){
+      return this.appointmentDate.toISOString().split('T')[0]
+    }
   }
   Appointment.init({
     appointmentDate: DataTypes.DATE,
