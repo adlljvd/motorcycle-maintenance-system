@@ -3,49 +3,57 @@
       "id": 1,
       "serviceName": "Oil Change",
       "description": "Complete oil change for your motorcycle.",
-      "price": 50
+      "price": 50000,
+      "imageURL": "https://thumbs.dreamstime.com/b/motorcycle-mechanic-replacing-pouring-fresh-oil-engine-maintenance-repair-service-station-portrait-auto-95236098.jpg" 
     },
     {
       "id": 2,
       "serviceName": "Tire Replacement",
       "description": "Replace worn-out tires with new ones.",
-      "price": 100
+      "price": 100000,
+      "imageURL": "https://cdn.room58.com/2024/04/22/12263cec93c13fc172e2d4cace6cfb26_9d1600f40fa556b2.jpg"
     },
     {
       "id": 3,
       "serviceName": "Brake Adjustment",
       "description": "Adjust and fine-tune your motorcycle's brakes for optimal performance.",
-      "price": 70
+      "price": 70000,
+      "imageURL": "https://irp.cdn-website.com/1f966471/dms3rep/multi/parking-brake-adjustment.jpg"
     },
     {
       "id": 4,
       "serviceName": "Chain Lubrication",
       "description": "Lubricate your motorcycle's chain for smooth riding.",
-      "price": 30
+      "price": 30000,
+      "imageURL": "https://www.motousher.com/wp-content/uploads/2024/02/Motorcycle_Chain_Lube.jpeg"
     },
     {
       "id": 5,
       "serviceName": "Battery Check & Replacement",
       "description": "Inspect battery performance and replace if necessary.",
-      "price": 80
+      "price": 80000,
+      "imageURL": "https://aaafnqbatteries.s3.ap-southeast-2.amazonaws.com/wp-content/uploads/2022/08/11122106/Motorcycle-batter-replacement-1080x675.png"
     },
     {
       "id": 6,
       "serviceName": "Suspension Tune-up",
       "description": "Full suspension check and adjustment for a smoother ride.",
-      "price": 120
+      "price": 120000,
+      "imageURL": "https://www.slashgear.com/img/gallery/3-reasons-why-you-should-upgrade-your-motorcycles-suspension/intro-1711363677.jpg"
     },
     {
       "id": 7,
       "serviceName": "Engine Diagnostics",
       "description": "Comprehensive engine diagnostics to identify issues.",
-      "price": 150
+      "price": 150000,
+      "imageURL": "https://renaissancemobileservice.com/wp-content/uploads/2024/04/electrician-repairing-motorcycle-wiring-2023-11-27-05-08-22-utc-1024x684.webp"
     },
     {
       "id": 8,
       "serviceName": "Spark Plug Replacement",
       "description": "Replace old spark plugs to ensure efficient engine firing.",
-      "price": 40
+      "price": 40000,
+      "imageURL": "https://www.lexhaminsurance.co.uk/media/a11asuln/replacing-a-spark-plug.png"
     }
   ]
 
