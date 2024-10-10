@@ -1,7 +1,7 @@
 const { User, Motorcycle, Appointment, Service } = require('../models/index');
 const bcrypt = require('bcryptjs');
 const formatRupiah = require('../helpers/formatRupiah.js');
-const { where } = require('sequelize');
+
 
 
 class Controller {
@@ -91,68 +91,200 @@ class Controller {
         }
     }
 
+    static async getMotorcycle(req, res) {
+        try {
+            const userId = req.session.userId;  // Assuming you're using session and user is logged in
+            const motorcycles = await Motorcycle.findAll({ where: { UserId: userId } });
+            
+            if (motorcycles.length > 0) {
+                res.render('motorcycle-details', { motorcycles, hasMotorcycle: true });
+            } else {
+                res.render('motorcycle-details', { motorcycles: null, hasMotorcycle: false });
+            }
+        } catch (error) {
+            res.send(error)
+            console.log(error)
+        }
+    }
+
+    static async getAddMotorcycle(req, res) {
+        try {
+            res.render('add-motorcycle');  
+        } catch (error) {
+            res.send(error)
+            console.log(error)
+        }
+    }
+
+    static async postAddMotorcycle(req, res) {
+        try {
+            const { brand, type, year, licensePlate } = req.body;
+        const userId = req.session.userId;
+
+        // Add the motorcycle to the database
+        await Motorcycle.create({ brand, type, year, licensePlate, UserId: userId });
+
+        // Redirect to the appointments page to display updated list of motorcycles
+        res.redirect('/appointments'); 
+        } catch (error) {
+            res.send(error)
+            console.log(error)
+        }
+    }
+
     static async getAppointments(req, res) {
         try {
-            const appointmentList = await Appointment.findAll({
-                where: {
-                    
-                }
-            })
+            const userId = req.session.userId;
+    
+            // Fetch user's motorcycle
+            const motorcycle = await Motorcycle.findOne({ where: { UserId: userId } });
+    
+            // Fetch all appointments for the user's motorcycle
+            const appointments = await Appointment.findAll({
+                where: { MotorcycleId: motorcycle ? motorcycle.id : null },
+                include: [Service]
+            });
+    
+            // Fetch all services for displaying in the form
+            const services = await Service.findAll();
+    
+            // Pass the necessary data to the view
+            res.render('appointments', {
+                appointments,
+                motorcycle,
+                services,
+                hasMotorcycle: !!motorcycle,
+                formatRupiah  // Boolean check for motorcycle existence
+            });
         } catch (error) {
-            res.send(error)
-            console.log(error)
+            console.log(error);
+            res.send(error);
         }
     }
-    static async getAddAppointments(req, res) {
+    
+    static async getAddAppointment(req, res) {
         try {
-            res.render('addAppointments')
-        } catch (error) {
-            res.send(error)
-            console.log(error)
-        }
-    }
-    static async postAddAppointments(req, res) {
-        try {
-            const { id } = req.params
-            const { brand, type, year, licensePlate, UserID, serviceName, description, price } = req.body
-            await Motorcycle.create({ brand, type, year, licensePlate, UserID: id })
-            await Service.create({ serviceName, description, price })
+            const userId = req.session.userId;
 
-            res.redirect('/appointments')
+            // Fetch the user's motorcycle
+            const motorcycle = await Motorcycle.findOne({
+                where: { UserId: userId }
+            });
+
+            // Fetch all services to display in the form
+            const services = await Service.findAll();
+
+            res.render('add-appointment', {
+                motorcycle,
+                services,
+                formatRupiah
+            });        
         } catch (error) {
             res.send(error)
             console.log(error)
         }
     }
-    static async getAppointmentsEdit(req, res) {
-        try {
-            const { id } = req.params
-            const { brand, type, year, licensePlate, UserID, serviceName, description, price } = req.body
 
+    static async postAddAppointment(req, res) {
+        try {
+            const { appointmentDate, serviceId } = req.body;
+            const userId = req.session.userId;
+
+            // Fetch the motorcycle associated with the user
+            const motorcycle = await Motorcycle.findOne({ where: { UserId: userId } });
+
+            if (!motorcycle) {
+                // If no motorcycle exists, redirect to add motorcycle
+                return res.redirect('/appointments');
+            }
+
+            // Create the appointment with the motorcycle and service
+            await Appointment.create({
+                appointmentDate,
+                MotorcycleId: motorcycle.id,
+                ServiceId: serviceId,
+                status: 'Scheduled',
+                totalPrice: await Service.findOne({ where: { id: serviceId } }).then(service => service.price)
+            });
+
+            // After adding the appointment, redirect to appointments page
+            res.redirect('/appointments');
         } catch (error) {
             res.send(error)
             console.log(error)
         }
     }
-    static async postAppointmentsEdit(req, res) {
-        try {
 
+    static async getEditAppointment(req, res) {
+        try {
+            console.log(req.params, "<<<<<<<REQ PARAMSSS"); // Should log { id: someId }
+            const { id } = req.params;
+            
+            if (!id) {
+                return res.status(400).send('No ID provided');
+            }
+    
+            const appointment = await Appointment.findOne({
+                where: { id },
+                include: [Motorcycle, Service]
+            });
+    
+            if (!appointment) {
+                return res.status(404).send('Appointment not found');
+            }
+    
+            const services = await Service.findAll();
+    
+            res.render('edit-appointment.ejs', { appointment, services, formatRupiah, id });
         } catch (error) {
-            res.send(error)
-            console.log(error)
+            res.send(error);
+            console.log(error);
         }
     }
-    static async deleteAppointments(req, res) {
+    
+    
+    static async postEditAppointment(req, res) {
         try {
-
+            const { id } = req.params;
+            const { appointmentDate, serviceId, status } = req.body;
+    
+            // Update the appointment with the new data
+            await Appointment.update({
+                appointmentDate,
+                ServiceId: serviceId,
+                status
+            }, {
+                where: { id }
+            });
+    
+            res.redirect('/appointments');
         } catch (error) {
-            res.send(error)
-            console.log(error)
+            res.send(error);
+            console.log(error);
         }
     }
-    static async getResultAppointments(req, res) {
+    
+    static async deleteAppointment(req, res) {
         try {
+            const { id } = req.params;
+    
+            // Find and delete the appointment
+            const appointment = await Appointment.findOne({
+                where: { id }
+            });
+            await appointment.destroy();
+    
+            res.redirect('/appointments');
+        } catch (error) {
+            res.send(error);
+            console.log(error);
+        }
+    }
+    
 
+    static async getAppointmentResult(req, res) {
+        try {
+            
         } catch (error) {
             res.send(error)
             console.log(error)

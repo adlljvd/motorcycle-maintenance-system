@@ -19,6 +19,7 @@ router.use((req, res, next) => {
 });
 
 // Private routes for authenticated users
+router.get('/motorcycle', Controller.getMotorcycle);
 router.get('/motorcycle/add', Controller.getAddMotorcycle);
 router.post('/motorcycle/add', Controller.postAddMotorcycle);
 
@@ -26,9 +27,10 @@ router.post('/motorcycle/add', Controller.postAddMotorcycle);
 router.get('/appointments', Controller.getAppointments); // View all appointments
 router.get('/appointments/add', Controller.getAddAppointment); // Form to create a new appointment
 router.post('/appointments/add', Controller.postAddAppointment); // Post request to add a new appointment
-router.get('/appointments/:id/edit', Controller.getEditAppointment); // Edit an appointment by id
+router.get('/appointments/:id/edit', Controller.getEditAppointment);
 router.post('/appointments/:id/edit', Controller.postEditAppointment); // Post request to update appointment
 router.get('/appointments/:id/delete', Controller.deleteAppointment); // Delete/cancel an appointment
 router.get('/appointments/:id/result', Controller.getAppointmentResult); // View the result of an appointment
 
 module.exports = router;
+

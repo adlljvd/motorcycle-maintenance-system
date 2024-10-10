@@ -5,7 +5,7 @@
     "MotorcycleId": 1,
     "status": "Completed",
     "ServiceId": 1,
-    "totalPrice": 50
+    "totalPrice": 50000
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "MotorcycleId": 2,
     "status": "Scheduled",
     "ServiceId": 2,
-    "totalPrice": 100
+    "totalPrice": 100000
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "MotorcycleId": 3,
     "status": "Completed",
     "ServiceId": 3,
-    "totalPrice": 75
+    "totalPrice": 75000
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "MotorcycleId": 4,
     "status": "Canceled",
     "ServiceId": 1,
-    "totalPrice": 50
+    "totalPrice": 50000
   },
   {
     "id": 5,
@@ -37,7 +37,7 @@
     "MotorcycleId": 5,
     "status": "Scheduled",
     "ServiceId": 2,
-    "totalPrice": 100
+    "totalPrice": 100000
   },
   {
     "id": 6,
@@ -45,6 +45,6 @@
     "MotorcycleId": 6,
     "status": "Scheduled",
     "ServiceId": 3,
-    "totalPrice": 75
+    "totalPrice": 75000
   }
 ]

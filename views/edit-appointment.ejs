@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Appointment</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto py-8">
+        <h1 class="text-2xl font-semibold text-center mb-6">Edit Appointment</h1>
+
+        <form action="/appointments/<%= id %>/edit" method="POST">
+            <div class="mb-4">
+                <label for="appointmentDate" class="block text-gray-700">Appointment Date:</label>
+                <input type="date" name="appointmentDate" id="appointmentDate" value="<%= appointment.appointmentDate %>" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div class="mb-4">
+                <label for="serviceId" class="block text-gray-700">Select Service:</label>
+                <select name="serviceId" id="serviceId" class="w-full px-3 py-2 border rounded-lg">
+                    <% services.forEach(service => { %>
+                        <option value="<%= service.id %>" <%= appointment.ServiceId === service.id ? 'selected' : '' %>>
+                            <%= service.serviceName %>
+                        </option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="status" class="block text-gray-700">Status:</label>
+                <select name="status" id="status" class="w-full px-3 py-2 border rounded-lg">
+                    <option value="Scheduled" <%= appointment.status === 'Scheduled' ? 'selected' : '' %>>Scheduled</option>
+                    <option value="Completed" <%= appointment.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+                    <option value="Canceled" <%= appointment.status === 'Canceled' ? 'selected' : '' %>>Canceled</option>
+                </select>
+            </div>
+            <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg">Save Changes</button>
+        </form>
+    </div>
+</body>
+
+</html>
