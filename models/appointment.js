@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Appointment.init({
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
     appointmentDate: DataTypes.DATE,
     MotorcycleId: DataTypes.INTEGER,
     status: DataTypes.STRING,

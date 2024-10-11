@@ -70,10 +70,19 @@
         }
     </style>
 </head>
+
 <body class="bg-gray-100">
 
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-2xl font-bold text-center mb-6">Customer List</h1>
+
+        <!-- Search Form -->
+        <form action="/admin/customers" method="GET" class="mb-4">
+            <div class="flex items-center justify-center">
+                <input type="text" name="search" placeholder="Search by customer name or motorcycle" class="border rounded-lg px-4 py-2 mr-2 w-1/3">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Search</button>
+            </div>
+        </form>
 
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white shadow-md rounded-lg">
@@ -110,6 +119,5 @@
             </table>
         </div>
     </div>
-
 </body>
 </html>

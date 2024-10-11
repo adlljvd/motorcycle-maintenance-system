@@ -232,6 +232,7 @@ class Controller {
             }
     
             const appointment = await Appointment.findOne({
+                attributes: ['id', 'appointmentDate', 'MotorcycleId', 'status', 'ServiceId', 'totalPrice'],
                 where: { id },
                 include: [Motorcycle, Service]
             });
@@ -253,14 +254,13 @@ class Controller {
     static async postEditAppointment(req, res) {
         try {
             const { id } = req.params;
-            const { appointmentDate, serviceId, status, totalPrice } = req.body;
+            const { appointmentDate, serviceId, totalPrice } = req.body;
     
             // Update the appointment in the database
             await Appointment.update(
                 {
                     appointmentDate,
                     ServiceId: serviceId,
-                    status,
                     totalPrice
                 },
                 { where: { id } }
@@ -315,11 +315,17 @@ class Controller {
 
     static async showCustomerDetails(req, res) {
         try {
+            const searchQuery = req.query.search || '';  // Get search term from query params
+
             const customers = await User.findAll({
-                where:{
-                    role:'customer'
+                where: {
+                    role: 'customer',
+                    [Op.or]: [
+                        { name: { [Op.iLike]: `%${searchQuery}%` } },  // Search by customer name
+                        { '$Motorcycle.brand$': { [Op.iLike]: `%${searchQuery}%` } }  // Search by motorcycle brand
+                    ]
                 },
-                include:[Motorcycle]
+                include: [Motorcycle]
             });
 
             const motorcycles = await Motorcycle.findAll({
@@ -345,16 +351,24 @@ class Controller {
                     where: { id }
                 }
             });
+
+
+            if (!customer.Motorcycle.id) {
+                throw new Error(`Customer doesn't have motorcycle yet`)
+            }
     
+            // res.send(customer)
             // Retrieve all the appointments related to the customer's motorcycle
             const appointments = await Appointment.findAll({
-                where: { MotorcycleId: id },
+                where: { MotorcycleId: customer.Motorcycle.id },
                 include: [Service]
             });
     
             if (!customer) {
                 return res.status(404).send('Customer not found');
             }
+
+            // res.send(appointments)
     
             res.render('admin-edit-status.ejs', { appointments, customer });
         } catch (error) {
@@ -365,21 +379,36 @@ class Controller {
 
     static async postEditStatusById(req, res) {
         try {
-            const { id } = req.params;  // Get appointment id from route parameter
+            const { id, serviceId } = req.params;  // Get appointment id from route parameter
             const { status } = req.body;  // Get the new status from the request body
 
             // Find the appointment by id
-            const appointment = await Appointment.findOne({ where: { id } });
+            const appointment = await Appointment.findOne({ 
+                where: {
+                    id, 
+                    ServiceId: serviceId
+                },
+                include: Motorcycle
+            });
+
+            // res.send(appointment)
 
             if (!appointment) {
                 return res.status(404).send('Appointment not found.');
             }
 
-            // Update the status
-            appointment.status = status;
-            await appointment.save();  // Save the updated status
+            if (!appointment.Motorcycle) {
+                return res.status(404).send('Motorcycle not found.');
+            }
 
-            res.redirect(`/admin/appointments/${id}/status`);  // Redirect back to the customer details page
+            // Update the status
+            await Appointment.update(
+                { status: status },  // The field you want to update
+                { where: { id, ServiceId: serviceId } }  // Condition to find the specific record
+            );
+            
+
+            res.redirect(`/admin/appointments/${appointment.Motorcycle.UserId}/status`);  // Redirect back to the customer details page
         } catch (error) {
             res.status(500).send(error.message);
         }

@@ -75,13 +75,6 @@
     <div class="container mx-auto py-8">
         <h1 class="text-2xl font-bold text-center mb-6">Customer: <%= customer.name %></h1>
 
-        <!-- <div>
-            <a href="/admin/appointments/filter"><button>All</button></a>
-            <a href="/admin/appointments/filter?status=Scheduled"><button>Scheduled</button></a>
-            <a href="/admin/appointments/filter?status=Completed"><button>Completed</button></a>
-            <a href="/admin/appointments/filter?status=Canceled"><button>Canceled</button></a>
-        </div> -->
-
         <!-- Appointments Table -->
         <table class="min-w-full bg-white shadow-md rounded-lg">
             <thead>
@@ -103,7 +96,7 @@
                             </span>
                         </td>
                         <td class="py-3 px-6">
-                            <form action="/admin/appointments/<%= el.ServiceId %>/status" method="POST">
+                            <form action="/admin/appointments/<%= el.id %>/services/<%= el.ServiceId %>/status" method="POST">
                                 <select name="status" class="border rounded-lg px-2 py-1">
                                     <option value="Scheduled" <%= el.status === 'Scheduled' ? 'selected' : '' %>>Scheduled</option>
                                     <option value="Completed" <%= el.status === 'Completed' ? 'selected' : '' %>>Completed</option>

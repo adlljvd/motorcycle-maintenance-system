@@ -30,7 +30,7 @@ router.use((req, res, next) => {
 
 router.get('/admin/customers', Controller.showCustomerDetails)
 router.get('/admin/appointments/:id/status', Controller.getEditStatusById)
-router.post('/admin/appointments/:id/status', Controller.postEditStatusById);
+router.post('/admin/appointments/:id/services/:serviceId/status', Controller.postEditStatusById);
 // router.get('/admin/appointments/filter', Controller.filterAppointmentsByStatus);
 
 
