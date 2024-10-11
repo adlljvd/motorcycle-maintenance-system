@@ -3,6 +3,10 @@ const bcrypt = require('bcryptjs');
 const formatRupiah = require('../helpers/formatRupiah.js');
 const { Op } = require('sequelize');
 
+const PDFDocument = require('pdfkit');
+const path = require('path');
+const fs = require('fs');
+
 class Controller {
 
     static async showLandingPage(req, res) {
@@ -10,7 +14,7 @@ class Controller {
 
             const serviceList = await Service.findAll()
             console.log(serviceList)
-            res.render('index.ejs', { serviceList, formatRupiah })
+            res.render('index.ejs', { serviceList, formatRupiah,})
             
 
         } catch (error) {
@@ -114,7 +118,11 @@ class Controller {
 
     static async getAddMotorcycle(req, res) {
         try {
-            res.render('add-motorcycle');  
+            let errors = ''
+            if (req.query.errors) {
+                errors = req.query.errors.split(',')
+            }
+            res.render('add-motorcycle', errors);  
         } catch (error) {
             res.send(error)
             console.log(error)
@@ -171,6 +179,10 @@ class Controller {
     
     static async getAddAppointment(req, res) {
         try {
+            let errors = ''
+            if (req.query.errors) {
+                errors = req.query.errors.split(',')
+            }
             const userId = req.session.userId;
 
             // Fetch the user's motorcycle
@@ -184,7 +196,8 @@ class Controller {
             res.render('add-appointment', {
                 motorcycle,
                 services,
-                formatRupiah
+                formatRupiah,
+                errors
             });        
         } catch (error) {
             res.send(error)
@@ -224,6 +237,7 @@ class Controller {
 
     static async getEditAppointment(req, res) {
         try {
+            
             console.log(req.params, "<<<<<<<REQ PARAMSSS"); // Should log { id: someId }
             const { id } = req.params;
             
@@ -290,17 +304,65 @@ class Controller {
             console.log(error);
         }
     }
-    
 
     static async getAppointmentResult(req, res) {
         try {
-            
+            const userId = req.session.userId; // Mengambil userId dari sesi
+            const appointments = await Appointment.findAll({
+                where: {
+                    MotorcycleId: userId,
+                    status: 'Completed'
+                },
+                include: [Motorcycle, Service]
+            });
+
+            if (appointments.length === 0) {
+                return res.status(404).send('No completed Appointments were found');
+            }
+
+            const pdfDir = path.join(__dirname, '..', 'public', 'pdfs');
+            if (!fs.existsSync(pdfDir)) {
+                fs.mkdirSync(pdfDir, { recursive: true });
+            }
+
+            const doc = new PDFDocument();
+            let fileName = `Hasil_Janji_${userId}.pdf`;
+            let filePath = path.join(pdfDir, fileName);
+
+            res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+            res.setHeader('Content-Type', 'application/pdf');
+
+            doc.pipe(fs.createWriteStream(filePath));
+            doc.pipe(res);
+            doc.fontSize(20).text('The Result of Our Inspection and Services about Your MotorCycles', { align: 'center' });
+            doc.moveDown();
+
+            appointments.forEach((appointment, index) => {
+                doc.fontSize(16).text(`Appointment ${index + 1}`, { underline: true });
+                doc.fontSize(12).text(`Appointment Date: ${appointment.appointmentDate}`);
+                doc.text(`Motorcycle Brand: ${appointment.Motorcycle.brand}`);
+                doc.text(`Motorcycle Type: ${appointment.Motorcycle.type}`);
+                doc.text(`Service Name: ${appointment.Service.serviceName}`);
+                doc.text(`Technician Assigned: ${appointment.technicianName}`);  // jika ada data teknisi
+                doc.text(`Service Description: ${appointment.Service.description || 'No description available'}`);
+                doc.text(`Total Service Time: 4 hours`);
+                doc.text(`Total Cost: ${formatRupiah(appointment.totalPrice)}`);
+                doc.text(`Payment Status: ${appointment.paymentStatus || 'Pending'}`);
+                doc.text(`Service Status: ${appointment.status}`);
+                doc.text(`Customer Feedback: ${appointment.feedback || 'No feedback provided'}`);
+                doc.text(`Service Notes: ${appointment.notes || 'No additional notes'}`);
+                doc.text(`Warranty Expiry: ${appointment.warrantyExpiry || 'No warranty provided'}`);
+                doc.text(`Service Rating: ${appointment.rating ? appointment.rating + ' stars' : 'Not rated'}`);
+
+                doc.moveDown();
+            });
+            doc.end();
+
         } catch (error) {
-            res.send(error)
-            console.log(error)
+            res.status(500).send(error);
+            console.log(error);
         }
     }
-
     
     static logout(req, res) {
         req.session.destroy((err) => {
@@ -311,7 +373,7 @@ class Controller {
         });
     }
 
-    //ADMIN 
+    //      ADMIN 
 
     static async showCustomerDetails(req, res) {
         try {
@@ -341,6 +403,10 @@ class Controller {
 
     static async getEditStatusById(req, res) {
         try {
+            let errors = ''
+            if (req.query.errors) {
+                errors = req.query.errors.split(',')
+            }
             const { id } = req.params;
         
 
@@ -370,7 +436,7 @@ class Controller {
 
             // res.send(appointments)
     
-            res.render('admin-edit-status.ejs', { appointments, customer });
+            res.render('admin-edit-status.ejs', { appointments, customer, errors });
         } catch (error) {
             res.status(500).send(error.message);
         }

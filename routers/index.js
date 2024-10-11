@@ -54,7 +54,8 @@ router.post('/appointments/add', Controller.postAddAppointment); // Post request
 router.get('/appointments/:id/edit', Controller.getEditAppointment);
 router.post('/appointments/:id/edit', Controller.postEditAppointment); // Post request to update appointment
 router.get('/appointments/:id/delete', Controller.deleteAppointment); // Delete/cancel an appointment
-router.get('/appointments/:id/result', Controller.getAppointmentResult); // View the result of an appointment
+router.get('/appointments/result', Controller.getAppointmentResult); // View the result of an appointment
+
 
 
 
