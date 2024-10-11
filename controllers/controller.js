@@ -11,9 +11,10 @@ class Controller {
 
     static async showLandingPage(req, res) {
         try {
+
             const serviceList = await Service.findAll()
             console.log(serviceList)
-            res.render('index.ejs', { serviceList, formatRupiah})
+            res.render('index.ejs', { serviceList, formatRupiah,})
             
 
         } catch (error) {
@@ -117,7 +118,11 @@ class Controller {
 
     static async getAddMotorcycle(req, res) {
         try {
-            res.render('add-motorcycle');  
+            let errors = ''
+            if (req.query.errors) {
+                errors = req.query.errors.split(',')
+            }
+            res.render('add-motorcycle', errors);  
         } catch (error) {
             res.send(error)
             console.log(error)
@@ -143,7 +148,7 @@ class Controller {
     static async getAppointments(req, res) {
         try {
             const userId = req.session.userId;
-            
+    
             const appointments = await Appointment.findAll({
                 attributes: ['id', 'appointmentDate', 'MotorcycleId', 'status', 'ServiceId', 'totalPrice'],
                 include: [Motorcycle, Service],
@@ -174,6 +179,10 @@ class Controller {
     
     static async getAddAppointment(req, res) {
         try {
+            let errors = ''
+            if (req.query.errors) {
+                errors = req.query.errors.split(',')
+            }
             const userId = req.session.userId;
 
             // Fetch the user's motorcycle
@@ -187,7 +196,8 @@ class Controller {
             res.render('add-appointment', {
                 motorcycle,
                 services,
-                formatRupiah
+                formatRupiah,
+                errors
             });        
         } catch (error) {
             res.send(error)
@@ -227,6 +237,7 @@ class Controller {
 
     static async getEditAppointment(req, res) {
         try {
+            
             console.log(req.params, "<<<<<<<REQ PARAMSSS"); // Should log { id: someId }
             const { id } = req.params;
             
@@ -306,7 +317,7 @@ class Controller {
             });
 
             if (appointments.length === 0) {
-                return res.status(404).send('Tidak ada janji yang telah selesai ditemukan');
+                return res.status(404).send('No completed Appointments were found');
             }
 
             const pdfDir = path.join(__dirname, '..', 'public', 'pdfs');
@@ -386,6 +397,10 @@ class Controller {
 
     static async getEditStatusById(req, res) {
         try {
+            let errors = ''
+            if (req.query.errors) {
+                errors = req.query.errors.split(',')
+            }
             const { id } = req.params;
         
 
@@ -407,7 +422,7 @@ class Controller {
                 return res.status(404).send('Customer not found');
             }
     
-            res.render('admin-edit-status.ejs', { appointments, customer });
+            res.render('admin-edit-status.ejs', { appointments, customer, errors });
         } catch (error) {
             res.status(500).send(error.message);
         }
