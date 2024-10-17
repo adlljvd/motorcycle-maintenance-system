@@ -8,7 +8,6 @@ router.post('/register', Controller.postRegisterForm);
 router.get('/login', Controller.getLoginForm);
 router.post('/login', Controller.postLoginForm);
 router.get('/', Controller.showLandingPage); // Home page that shows available services
-router.get('/logout', Controller.logout);
 
 
 // Authentication middleware
@@ -21,27 +20,27 @@ router.use((req, res, next) => {
 });
 
 // router.use('/admin', (req, res, next) => {
-//     if (req.session.user.role !== 'admin') {
-//         const error = 'You do not have access!';
-//         return res.redirect('/login?error=' + error);
-//     }
-//     next();
-// });
-
+    //     if (req.session.user.role !== 'admin') {
+        //         const error = 'You do not have access!';
+        //         return res.redirect('/login?error=' + error);
+        //     }
+        //     next();
+        // });
+        
 router.get('/admin/customers', Controller.showCustomerDetails)
 router.get('/admin/appointments/:id/status', Controller.getEditStatusById)
 router.post('/admin/appointments/:id/services/:serviceId/status', Controller.postEditStatusById);
 // router.get('/admin/appointments/filter', Controller.filterAppointmentsByStatus);
-
-
-// router.use((req, res, next) => {
-//     if (req.session.userId && req.session.role !== 'customer') {
-//         const error = 'You are an admin, can`t access to customer features!';
-//         return res.redirect(`/login?error=${error}`);
-//     }
-//     next();
-// });
-
+        
+        
+router.use((req, res, next) => {
+        if (req.session.userId && req.session.role !== 'customer') {
+                const error = 'You are an admin, can`t access to customer features!';
+                return res.redirect(`/login?error=${error}`);
+            }
+            next();
+        });
+        
 // Private routes for authenticated users
 router.get('/motorcycle', Controller.getMotorcycle);
 router.get('/motorcycle/add', Controller.getAddMotorcycle);
@@ -59,6 +58,7 @@ router.get('/appointments/result', Controller.getAppointmentResult); // View the
 
 
 
+router.get('/logout', Controller.logout);
 
 module.exports = router;
 

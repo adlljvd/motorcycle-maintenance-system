@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express()
 const session = require('express-session');
-const port = 3003 //process.env.PORT || 3000;
+const port = 3001 //process.env.PORT || 3000;
 const routers = require('./routers/index');
 
 app.set('view engine', 'ejs')
